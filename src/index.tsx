@@ -1,12 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import AppRouter from './routes';
 import { DeclarationProvider } from './shareds/contexts/declarationContext';
-
-
-
 
 
 const root = ReactDOM.createRoot(

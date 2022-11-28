@@ -1,30 +1,17 @@
 import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Navbar, Container } from 'react-bootstrap';
+
+
 
 
  const  TopAppBar = () => {
  
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Navbar bg="primary">
+        <Container>
+          <Navbar.Brand href="#home">Brand link</Navbar.Brand>
+        </Container>
+      </Navbar>
   );
 }
 

@@ -1,6 +1,6 @@
-
-import { Box }  from '@mui/material';
-import { Container } from '@mui/system';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import TopAppBar from '../components/TopAppBar';
 
 
@@ -11,16 +11,17 @@ type PageLayoutProps = {
 export const PageLayout: React.FC<PageLayoutProps> = ( { children } ) =>{
 
     return (
-       <Box>
-            <Box>
-              <TopAppBar/>  
-            </Box>
-            <Box>
-              <Container>
-                  {children}
-              </Container>
-            </Box>
-       </Box>
+      <>
+      <Row>
+        <Col><TopAppBar /></Col>
+      </Row>
+      <Container>
+      <Row>
+        
+      </Row>
+    </Container>
+      </>
+      
        
     );
 }

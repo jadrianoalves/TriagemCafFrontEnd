@@ -1,95 +1,248 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import { width } from '@mui/system'
 import React from 'react'
+import { Button, Col, Container, Form, InputGroup, Navbar, Row } from 'react-bootstrap'
+import { CPFInput } from '../../shareds/components/forms/MaskedInputs'
 import { PageLayout } from '../../shareds/layouts/PageLayout'
 
+import ReactInputMask from 'react-input-mask';
 
-const Declaration: React.FC = () =>{
+
+
+const Declaration: React.FC = () => {
 
     return (
-        <PageLayout>
-            <Box>
-                <h1>Autodeclaração de Renda Familiar UFPA</h1>
-            </Box>
-            
-                
-                <FormControl fullWidth>
-                <Grid container direction="row"
-                    justifyContent="flex-start"
-                    spacing={2}
-                    flex-wrap="wrap"
-                    sx={{} }>
-                        <Grid item sm={12}>
-                            <TextField id="name" label="Nome do declarante" variant="standard" aria-label='Nome do declarante' fullWidth/>
-                        </Grid>
-                        <Grid item sm={12} >
-                            <FormControl fullWidth variant="standard">
-                            <InputLabel id="gender">Sexo</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                value={''}
-                                onChange={()=>{}}
-                                label="Age"
-                            >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                                <MenuItem value={10}>Masculino</MenuItem>
-                                <MenuItem value={20}>Feminino</MenuItem>
-                        </Select>
-                            </FormControl>
-                        </Grid>
-                    <Grid item sm={12} xs={4} md={2}>    
-                        <TextField id="CPF" label="CPF" variant="standard" aria-label='CPF do declarante' type="number" fullWidth/>
-                    </Grid>
-                    <Grid item sm={12} xs={4} md={4}> 
-                        <TextField id="RG" label="RG" variant="standard" aria-label='CPF do declarante' type="number" fullWidth/>
-                    </Grid>
-                    <Grid item sm={12} xs={1} md={1}>
-                            <FormControl fullWidth variant="standard">
-                            <InputLabel id="gender">UF</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                value={''}
-                                onChange={()=>{}}
-                                label="Age"
-                            >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                                <MenuItem value={10}>Masculino</MenuItem>
-                                <MenuItem value={20}>Feminino</MenuItem>
-                        </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={12} xs={2} md={2}>
-                            <FormControl fullWidth variant="standard">
-                            <InputLabel id="gender">Orgão Expedidor</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                value={''}
-                                onChange={()=>{}}
-                                label="Age"
-                            >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                                <MenuItem value={10}>Masculino</MenuItem>
-                                <MenuItem value={20}>Feminino</MenuItem>
-                        </Select>
-                            </FormControl>
-                        </Grid>
-                    <Grid item sm={12} xs={4} md={4}> 
-                        <TextField id="UF" label="Emissão" variant="standard" aria-label='CPF do declarante' type="date" placeholder="Expedição" fullWidth/>
-                    </Grid>
-                </Grid>
-                </FormControl>
-               
-           
-        </PageLayout>
+        <>
+            <Navbar bg="dark" variant="dark">
+                <Container>
+                    <Navbar.Brand href="#home">
+                        <img
+                            alt=""
+                            src="/logo.svg"
+                            width="30"
+                            height="30"
+                            className="d-inline-block align-top"
+                        />{' '}
+                        Triagem CAF
+                    </Navbar.Brand>
+                </Container>
+            </Navbar>
+            <Container>
+                <Row>
+                    <Col>
+                        <h1 className="display-3">Declaração de Renda CAF</h1>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" placeholder="Nome do declarante" />
+                            </Form.Group>
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>Sexo</option>
+                                <option value="1">Masculino</option>
+                                <option value="2">Feminino</option>
+                            </Form.Select>
+
+                            <Form.Group>
+                                <ReactInputMask mask="999.999.999-99" className='form-control mb-3' placeholder='CPF' />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" placeholder="RG" />
+                            </Form.Group>
+
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text>Data de emissão</InputGroup.Text>
+                                <Form.Control type="Date" />
+                            </InputGroup>
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>UF Orgão Emissão</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </Form.Select>
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>Emissor</option>
+                                <option value="1">SSP</option>
+                                <option value="2">SSDC</option>
+                            </Form.Select>
+
+ 
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Endereço de residência</Form.Label>
+                                <Form.Control type="text" placeholder="Endereço" />
+                            </Form.Group>
+
+
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>Selecione a UF</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </Form.Select>
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>Selecione o município</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </Form.Select>
+
+
+
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Endereço da UFPA</Form.Label>
+                                <Form.Control type="text" placeholder="Endereço" />
+                            </Form.Group>
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>Selecione a UF</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </Form.Select>
+
+                            <Form.Select aria-label="Default select example" className="mb-3">
+                                <option>Selecione o município</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </Form.Select>
+
+                            <Button variant="outline-primary">Informar composição da renda</Button>{' '}
+
+                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                <Form.Check type="checkbox" label="Check me out" />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button>
+                        </Form>
+
+                    </Col>
+                </Row>
+            </Container>
+        </>
     )
 
 }

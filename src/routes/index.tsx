@@ -1,4 +1,4 @@
-import { BrowserRouter, Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Declaration from '../pages/declaration'
 import Home from '../pages/home'
 
