@@ -2,50 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { Button, Col, Container, Form, InputGroup, Navbar, Row, Table } from 'react-bootstrap'
 import { CPFInput } from '../../shareds/components/forms/MaskedInputs'
 import { PageLayout } from '../../shareds/layouts/PageLayout'
-
+import { BsFillPlusCircleFill, BsFillTrashFill } from 'react-icons/bs'
 import ReactInputMask from 'react-input-mask';
 import { getValue } from '@testing-library/user-event/dist/utils';
-import { PlusCircle } from 'react-bootstrap-icons';
+
+
+import produtoslist from '../../assets/produtos'
 
 
 
 type Produto = {
-    "origem": string
-    "tipo": string
-    "categoria": string
-    "produto": string
+    "id": number
+    "origin": string
+    "type": string
+    "category": string
+    "product": string
+    "value": number
 }
-
-const arrayProdutos: Produto[] = [
-    {
-        origem: "Renda do estabelecimento",
-        tipo: "lavoura temporaria",
-        categoria: "graos",
-        produto: "feijão"
-    },
-
-    {
-        origem: "Renda do estabelecimento",
-        tipo: "lavoura temporaria",
-        categoria: "graos",
-        produto: "milho"
-    },
-
-    {
-        origem: "Renda do estabelecimento",
-        tipo: "lavoura temporaria",
-        categoria: "graos",
-        produto: "fava"
-    },
-    {
-        origem: "Renda do estabelecimento",
-        tipo: "lavoura temporaria",
-        categoria: "tubérculos",
-        produto: "batata"
-    },
-
-]
-
 
 
 
@@ -56,18 +29,40 @@ var meusProdutos: Produto[] = [];
 
 const Declaration: React.FC = () => {
 
-    const [produtos, setProdutos ] = useState<Produto[]>([{origem: "",
-    tipo: "",
-    categoria: "",
-    produto: ""}])
+    const [produtos, setProdutos] = useState<Produto[]>([{
+        id: 0, origin: "",
+        type: "",
+        category: "",
+        product: "",
+        value:0
+    }])
+
     const [produtoKey, setProdutoKey] = useState("")
+    const [contador, setContador] = useState(0)
 
-
-    function handleProducts(produto: Produto){
+    const handleProducts = (produto: Produto) => {
         meusProdutos.push(produto)
         setProdutos(meusProdutos)
+        setContador(contador + 1)
         console.log(meusProdutos)
     }
+
+    const definirValor = (index: number, value: string) =>{
+       
+        meusProdutos[index].value = +value
+        setProdutos(meusProdutos)
+        console.log(meusProdutos)
+        
+    }
+
+    const [ rendaTotal, setRendaTotal ] = useState(0)
+
+    const [ valueProduct, setValueProduct ] = useState("")
+
+
+    useEffect(() => {
+        console.log(meusProdutos.reduce((total, item)=> total + item.value, 0))
+    }, [contador])
 
     return (
         <>
@@ -333,21 +328,15 @@ const Declaration: React.FC = () => {
                         </Col>
                     </Row>
                 </Form>
-
+                <Form.Group>
                 <Row>
                     <Col xs="12">
                         <Form.Group className="mb-3" controlId="productFindKey">
-                            <Form.Control type="text" placeholder="Digite o nome do produto" value={produtoKey} onChange={(e) => setProdutoKey(e.target.value)} />
+                            <Form.Control type="text" placeholder="Digite parte do nome do produto" value={produtoKey} onChange={(e) => setProdutoKey(e.target.value)} />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs="12">
-                        <ul>
-                            {(produtoKey == "") ? <li></li> : arrayProdutos.filter((p) => p.produto.startsWith(produtoKey)).map((p) => <li>{p.produto}</li>)}
-                        </ul>
-                    </Col>
-
                     <Col>
                         <Table striped bordered hover>
                             <thead>
@@ -360,22 +349,24 @@ const Declaration: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {(produtoKey == "") ? 
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    </tr> 
-                                    :arrayProdutos.filter((p) => p.produto.startsWith(produtoKey))
-                                    .map((p) => 
+                                {(produtoKey == "") ?
                                     <tr>
-                                        <td>{p.produto}</td>
-                                        <td>{p.categoria}</td>
-                                        <td>{p.tipo}</td>
-                                        <td>{p.origem}</td>
-                                        <td> <PlusCircle onClick={()=>handleProducts(p)}/> </td>
-                                </tr>)}
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        
+                                    </tr>
+                                    : produtoslist.filter((p) => p.product.includes(produtoKey)).slice(0, 9)
+                                        .map((p, index) =>
+                                            <tr key={index}>
+                                                <td>{p.product}</td>
+                                                <td>{p.category}</td>
+                                                <td>{p.type}</td>
+                                                <td>{p.origin}</td>
+                                                
+                                                <td> <BsFillPlusCircleFill onClick={() => handleProducts(p)} /> </td>
+                                            </tr>)}
 
 
                             </tbody>
@@ -390,32 +381,47 @@ const Declaration: React.FC = () => {
 
                 <Row>
                     <Col>
-                    <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>Produto</th>
-          <th>Categoria</th>
-          <th>Tipo</th>
-          <th>Origem</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-            produtos.map((p)=>
-                <tr>
-                    <td>{p.produto}</td>
-                    <td>{p.categoria}</td>
-                    <td>{p.tipo}</td>
-                    <td>{p.origem}</td>
-                </tr>
-            )
-        }
-        
-      </tbody>
-    </Table>
+                        <h2>Produtos Selecionados </h2>
                     </Col>
                 </Row>
+                <Row>
+                    <Col>
 
+
+                        <Table striped bordered hover size="sm">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Categoria</th>
+                                    <th>Tipo</th>
+                                    <th>Origem</th>
+                                    <th>Valor</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    produtos.map((p, index) =>
+                                        <tr key={index}>
+                                            <td>{p.product}</td>
+                                            <td>{p.category}</td>
+                                            <td>{p.type}</td>
+                                            <td>{p.origin}</td>
+                                            <td>
+                                            <Form.Control type="number" placeholder="valor" onChange={(e)=>setValueProduct(e.target.value)}/>
+                                            </td>
+                                            <td><BsFillTrashFill onClick={()=>definirValor(index, valueProduct)} /></td>
+                                        </tr>
+                                    )
+                                }
+
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+                </Form.Group>
             </Container>
         </>
     )
