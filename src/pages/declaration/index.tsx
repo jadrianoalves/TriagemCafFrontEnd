@@ -13,14 +13,35 @@ import produtoslist from '../../assets/produtos'
 
 type Produto = {
     "id": number
+    "owner": string
     "origin": string
     "type": string
     "category": string
     "product": string
     "value": number
+    "free": number
 }
 
 
+type CoordenadasGSM = {
+    s: {
+        "graus": number
+        "minutos": number
+        "segundos": number
+    }
+
+    o: {
+        "graus": number
+        "minutos": number
+        "segundos": number
+    }
+
+}
+
+type CoordenadasGeo = {
+    "latitude": number
+    "longitude": number
+}
 
 
 var meusProdutos: Produto[] = [];
@@ -30,39 +51,78 @@ var meusProdutos: Produto[] = [];
 const Declaration: React.FC = () => {
 
     const [produtos, setProdutos] = useState<Produto[]>([{
-        id: 0, origin: "",
+        id: 0,
+        origin: "",
+        owner: "",
         type: "",
         category: "",
         product: "",
-        value:0
+        value: 0,
+        free: 0
     }])
 
     const [produtoKey, setProdutoKey] = useState("")
     const [contador, setContador] = useState(0)
 
+
     const handleProducts = (produto: Produto) => {
+        produto.value = +valueProduct
         meusProdutos.push(produto)
         setProdutos(meusProdutos)
         setContador(contador + 1)
+        setProdutoKey("")
+        setValueProduct("")
         console.log(meusProdutos)
     }
 
-    const definirValor = (index: number, value: string) =>{
-       
-        meusProdutos[index].value = +value
-        setProdutos(meusProdutos)
-        console.log(meusProdutos)
-        
+    const definirValor = (index: number, value: string) => {
+
+
+
     }
 
-    const [ rendaTotal, setRendaTotal ] = useState(0)
+    const [rendaTotal, setRendaTotal] = useState(0)
 
-    const [ valueProduct, setValueProduct ] = useState("")
+    const [rendaForaDoEstabelecimento, setRendaForaDoEstabelecimento] = useState(0)
+
+    const [rendaIsenta, setRendaIsenta] = useState(0)
+
+    const [valueProduct, setValueProduct] = useState("")
+
+
+
+    const [coordenadasGSM, setCoordenadasGSM] = useState<CoordenadasGSM>({
+        s:{graus: 0, minutos: 0, segundos: 0},
+        o: {graus: 0, minutos: 0,segundos: 0}
+    })
+
+    const [coordenadasGeo, setCoordenadasGeo] = useState<CoordenadasGeo>({
+        latitude:0,
+        longitude:0
+    })
+
+
 
 
     useEffect(() => {
-        console.log(meusProdutos.reduce((total, item)=> total + item.value, 0))
+        setRendaTotal(meusProdutos.reduce((total, item) => total + item.value, 0))
+        const rendaFora = meusProdutos.filter((p) => p.origin == "Renda Fora do Estabelecimento Rural")
+        setRendaForaDoEstabelecimento(rendaFora.reduce((total, item) => total + item.value, 0))
+
     }, [contador])
+
+
+    const converterCoordenadas = (gsm: CoordenadasGSM)=>{
+        
+        const longitude = gsm.o.graus + (gsm.o.minutos / 60) + (gsm.o.segundos / 3600)
+        const latitude = gsm.s.graus + (gsm.s.minutos / 60) + (gsm.s.segundos / 3600)
+        
+        setCoordenadasGeo({latitude: latitude, longitude: longitude})
+
+    }
+
+
+
 
     return (
         <>
@@ -329,98 +389,108 @@ const Declaration: React.FC = () => {
                     </Row>
                 </Form>
                 <Form.Group>
-                <Row>
-                    <Col xs="12">
-                        <Form.Group className="mb-3" controlId="productFindKey">
-                            <Form.Control type="text" placeholder="Digite parte do nome do produto" value={produtoKey} onChange={(e) => setProdutoKey(e.target.value)} />
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Produto</th>
-                                    <th>Categoria</th>
-                                    <th>Tipo</th>
-                                    <th>Origem</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {(produtoKey == "") ?
+                    <Row>
+                        <Col>
+                            <Form.Control type="number" placeholder="valor" onChange={(e) => setValueProduct(e.target.value)} value={valueProduct}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs="12">
+                            <Form.Group className="mb-3" controlId="productFindKey">
+                                <Form.Control type="text" placeholder="Digite parte do nome do produto" value={produtoKey} onChange={(e) => setProdutoKey(e.target.value)} />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Table striped bordered hover>
+                                <thead>
                                     <tr>
+                                        <th>Produto</th>
+                                        <th>Categoria</th>
+                                        <th>Tipo</th>
+                                        <th>Origem</th>
                                         <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        
                                     </tr>
-                                    : produtoslist.filter((p) => p.product.includes(produtoKey)).slice(0, 9)
-                                        .map((p, index) =>
+                                </thead>
+                                <tbody>
+                                    {(produtoKey == "") ?
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+
+                                        </tr>
+                                        : produtoslist.filter((p) => p.product.includes(produtoKey)).slice(0, 9)
+                                            .map((p, index) =>
+                                                <tr key={index}>
+                                                    <td>{p.product}</td>
+                                                    <td>{p.category}</td>
+                                                    <td>{p.type}</td>
+                                                    <td>{p.origin}</td>
+
+                                                    <td> <BsFillPlusCircleFill onClick={() => handleProducts(p)} /> </td>
+                                                </tr>)}
+
+
+                                </tbody>
+                            </Table>
+
+
+                        </Col>
+
+
+
+                    </Row>
+                    <Row>
+                        <Col>
+                            Total de Renda da UFPA: {rendaTotal}
+                            Total de Renda Fora do Estabelecimento: {rendaForaDoEstabelecimento}
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <h2>Produtos Selecionados </h2>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+
+
+                            <Table striped bordered hover size="sm">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Produto</th>
+                                        <th>Categoria</th>
+                                        <th>Tipo</th>
+                                        <th>Origem</th>
+                                        <th>Valor</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        produtos.map((p, index) =>
                                             <tr key={index}>
                                                 <td>{p.product}</td>
                                                 <td>{p.category}</td>
                                                 <td>{p.type}</td>
                                                 <td>{p.origin}</td>
-                                                
-                                                <td> <BsFillPlusCircleFill onClick={() => handleProducts(p)} /> </td>
-                                            </tr>)}
+                                                <td>{p.value}</td>
+                                                <td><BsFillTrashFill onClick={() => definirValor(index, valueProduct)} /></td>
+                                            </tr>
+                                        )
+                                    }
 
-
-                            </tbody>
-                        </Table>
-
-
-                    </Col>
-
-
-
-                </Row>
-
-                <Row>
-                    <Col>
-                        <h2>Produtos Selecionados </h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-
-
-                        <Table striped bordered hover size="sm">
-
-                            <thead>
-
-                                <tr>
-                                    <th>Produto</th>
-                                    <th>Categoria</th>
-                                    <th>Tipo</th>
-                                    <th>Origem</th>
-                                    <th>Valor</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    produtos.map((p, index) =>
-                                        <tr key={index}>
-                                            <td>{p.product}</td>
-                                            <td>{p.category}</td>
-                                            <td>{p.type}</td>
-                                            <td>{p.origin}</td>
-                                            <td>
-                                            <Form.Control type="number" placeholder="valor" onChange={(e)=>setValueProduct(e.target.value)}/>
-                                            </td>
-                                            <td><BsFillTrashFill onClick={()=>definirValor(index, valueProduct)} /></td>
-                                        </tr>
-                                    )
-                                }
-
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
+                                </tbody>
+                            </Table>
+                        </Col>
+                    </Row>
                 </Form.Group>
             </Container>
         </>

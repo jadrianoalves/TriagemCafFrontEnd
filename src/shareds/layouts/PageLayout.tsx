@@ -16,8 +16,11 @@ export const PageLayout: React.FC<PageLayoutProps> = ( { children } ) =>{
         <Col><TopAppBar /></Col>
       </Row>
       <Container>
-      <Row>
+      <Row >
+        <Col center>
         
+        { children }
+        </Col>
       </Row>
     </Container>
       </>
