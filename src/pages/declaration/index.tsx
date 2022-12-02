@@ -7,19 +7,25 @@ import ReactInputMask from 'react-input-mask';
 import { getValue } from '@testing-library/user-event/dist/utils';
 
 
-import produtoslist from '../../assets/produtos'
+import produtoslist from '../../assets/products'
 
 
 
 type Produto = {
     "id": number
-    "owner": string
     "origin": string
     "type": string
     "category": string
     "product": string
-    "value": number
     "free": number
+}
+
+type ItemDeRenda = {
+
+    "produto": Produto
+    "owner": string
+    "value": number
+
 }
 
 
@@ -44,31 +50,39 @@ type CoordenadasGeo = {
 }
 
 
-var meusProdutos: Produto[] = [];
+var meusProdutos: ItemDeRenda[] = [];
 
 
 
 const Declaration: React.FC = () => {
 
-    const [produtos, setProdutos] = useState<Produto[]>([{
-        id: 0,
-        origin: "",
+    const [itemRenda, setItemRenda] = useState<ItemDeRenda[]>([
+
+        {produto: {
+            id: 0,
+            origin: "",
+            type: "",
+            category: "",
+            product: "",
+            free: 0
+        },
         owner: "",
-        type: "",
-        category: "",
-        product: "",
-        value: 0,
-        free: 0
-    }])
+        value: 0
+}])
 
     const [produtoKey, setProdutoKey] = useState("")
     const [contador, setContador] = useState(0)
 
 
     const handleProducts = (produto: Produto) => {
-        produto.value = +valueProduct
-        meusProdutos.push(produto)
-        setProdutos(meusProdutos)
+        let itemRenda = {
+            produto: produto,
+            owner: owner,
+            value: +valueProduct
+        }
+        
+        meusProdutos.push(itemRenda)
+        setItemRenda(meusProdutos)
         setContador(contador + 1)
         setProdutoKey("")
         setValueProduct("")
@@ -89,35 +103,46 @@ const Declaration: React.FC = () => {
 
     const [valueProduct, setValueProduct] = useState("")
 
+    const [ owner, setOwner ] = useState("")
 
 
     const [coordenadasGSM, setCoordenadasGSM] = useState<CoordenadasGSM>({
-        s:{graus: 0, minutos: 0, segundos: 0},
-        o: {graus: 0, minutos: 0,segundos: 0}
+        s: { graus: 0, minutos: 0, segundos: 0 },
+        o: { graus: 0, minutos: 0, segundos: 0 }
     })
 
     const [coordenadasGeo, setCoordenadasGeo] = useState<CoordenadasGeo>({
-        latitude:0,
-        longitude:0
+        latitude: 0,
+        longitude: 0
     })
+
+    const [ rendaForaDoEstabelecimentoComDesconto, setRendaForaDoEstabelecimentoComDesconto ] = useState(0)
+
+    const [ rendaForaDoEstabelecimentoSocial, setRendaForaDoEstabelecimentoSocial ] = useState(0)
 
 
 
 
     useEffect(() => {
+        
+        const rendaFora = meusProdutos.filter((p) => p.produto.origin == "Renda Fora do Estabelecimento Rural")
+        const rendaIsenta = meusProdutos.filter((p) => p.produto.free == 1)
+        const rendaForaTributavel = meusProdutos.filter((p) => p.produto.origin == "Renda Fora do Estabelecimento Rural" && p.produto.free == 0 )
+        const rendaForaNaoTributavel = meusProdutos.filter((p) => p.produto.origin == "Renda Fora do Estabelecimento Rural" && p.produto.free == 1 )
         setRendaTotal(meusProdutos.reduce((total, item) => total + item.value, 0))
-        const rendaFora = meusProdutos.filter((p) => p.origin == "Renda Fora do Estabelecimento Rural")
         setRendaForaDoEstabelecimento(rendaFora.reduce((total, item) => total + item.value, 0))
+        setRendaForaDoEstabelecimentoComDesconto(rendaForaTributavel.reduce((total, item)=>total + item.value, 0))
+        setRendaForaDoEstabelecimentoSocial(rendaForaNaoTributavel.reduce((total, item)=> total + item.value, 0))
 
     }, [contador])
 
 
-    const converterCoordenadas = (gsm: CoordenadasGSM)=>{
-        
+    const converterCoordenadas = (gsm: CoordenadasGSM) => {
+
         const longitude = gsm.o.graus + (gsm.o.minutos / 60) + (gsm.o.segundos / 3600)
         const latitude = gsm.s.graus + (gsm.s.minutos / 60) + (gsm.s.segundos / 3600)
-        
-        setCoordenadasGeo({latitude: latitude, longitude: longitude})
+
+        setCoordenadasGeo({ latitude: latitude, longitude: longitude })
 
     }
 
@@ -475,12 +500,12 @@ const Declaration: React.FC = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        produtos.map((p, index) =>
+                                        itemRenda.map((p, index) =>
                                             <tr key={index}>
-                                                <td>{p.product}</td>
-                                                <td>{p.category}</td>
-                                                <td>{p.type}</td>
-                                                <td>{p.origin}</td>
+                                                <td>{p.produto.product}</td>
+                                                <td>{p.produto.category}</td>
+                                                <td>{p.produto.type}</td>
+                                                <td>{p.produto.origin}</td>
                                                 <td>{p.value}</td>
                                                 <td><BsFillTrashFill onClick={() => definirValor(index, valueProduct)} /></td>
                                             </tr>
