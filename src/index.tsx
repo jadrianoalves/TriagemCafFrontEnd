@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import AppRouter from './routes';
-import { DeclarationProvider } from './shareds/contexts/declarationContext';
 import "./custom.scss"
+import { DeclarationProvider } from './shareds/contexts/declarationContext';
 
 
 const root = ReactDOM.createRoot(
@@ -13,9 +13,12 @@ const root = ReactDOM.createRoot(
 
 root.render(
   
+
     <DeclarationProvider>
       <AppRouter />    
     </DeclarationProvider>    
+
+    
   
 );
 

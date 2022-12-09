@@ -1,54 +1,42 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react'
-import { TriagemCAF } from '../../types/IDeclaration'
+import React, { createContext, ReactNode, useState } from 'react'
+import { ItemDeRenda, DeclarationContextType, Membro } from '../../@types/IDeclaration'
 
-export const DeclarationContext = createContext({})
+export const DeclarationContext = createContext<DeclarationContextType | null>(null)
 
-export default DeclarationContext
 
 
 interface Props{
-  children?: ReactNode
-}
-
-  export const DeclarationProvider: React.FC<Props> = ({children})=>{
-
-
-
-    const [ declaration, setDeclaration ] = useState<TriagemCAF>({
-      id: 0,
-      declarante: {
-        nome: "",
-        sexo: "",
-        cpf: {
-          numero: ""
-        },
-        rg: {
-          numero: "",
-          orgao: "",
-          uf: ""
-        }
-      },
-      membros: [],
-      rendas: [],
-      resumo: {
-        rendaTotaldaUFPA: 0,
-        rendaDoEstabelecimento: 0,
-        rendaForaDoEsabelecimento: 0,
-        rendaIsenta: 0
-      },
-      criadoEm: new Date()
-      })
-      
-    return(
-        <DeclarationContext.Provider 
-            value={{
-                declaration, 
-                setDeclaration
-                }}>
-            {children}
-        </DeclarationContext.Provider>
-    )
-    
+    children?: ReactNode
   }
 
+export const DeclarationProvider: React.FC<Props> = ({children}) => {
+    const [ itensDeRenda, setIntensDeRenda ] = useState<ItemDeRenda[]>([
+        {
+            membro: "",
+            produto: { 
+                id: 0,
+                origin: "",
+                type: "",
+                category: "",
+                product: "",
+                free: 0,
+            },
+            valor: 0
+        }
+    ])
 
+    const Produtos: ItemDeRenda[] = []
+    
+    const membros: Membro[] = []
+
+    return (
+        <DeclarationContext.Provider value = {{
+            membros, Produtos, itensDeRenda, setIntensDeRenda
+        }}>
+            { children }
+        </DeclarationContext.Provider>
+    )
+}
+
+
+export default DeclarationProvider

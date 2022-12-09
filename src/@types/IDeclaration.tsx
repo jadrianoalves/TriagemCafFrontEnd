@@ -5,8 +5,7 @@ export interface TriagemCAF extends Props{
     declarante: Declarante
     membros: Membro[]
     rendas: ItemDeRenda[]
-    propriedade: {}
-    resumo: Resumo
+    propriedades: Propriedade[]
     criadoEm: Date
     
 }
@@ -17,6 +16,11 @@ interface Props{
   }
 
 export type Propriedade = {
+    nome: string
+    area: string
+    endereco: Endereco
+    coordenadas: CoordenadasGSM
+    principal: number
 
 }
 
@@ -42,7 +46,7 @@ export type Endereco = {
 }
 
 
-type CoordenadasGSM = {
+export type CoordenadasGSM = {
     s: {
         "graus": number
         "minutos": number
@@ -57,7 +61,7 @@ type CoordenadasGSM = {
 
 }
 
-type CoordenadasGeo = {
+export type CoordenadasGeo = {
     "latitude": number
     "longitude": number
 }
@@ -85,19 +89,27 @@ export type Membro = {
 }
 
 export type ItemDeRenda = {
-    memberName: string
-    product: Produto
-    value: number
+    membro: string
+    produto: Produto
+    valor: number
 
 }
 
-type Produto = {
-    "id": number
-    "origin": string
-    "type": string
-    "category": string
-    "product": string
-    "free": number
+export type DeclarationContextType = {
+    Produtos: ItemDeRenda[],
+    membros: Membro[],
+    itensDeRenda: ItemDeRenda[],
+    setIntensDeRenda: React.Dispatch<React.SetStateAction<ItemDeRenda[]>>
+
+}
+
+export type Produto = {
+    id: number
+    origin: string
+    type: string
+    category: string
+    product: string
+    free: number
 }
 
 
