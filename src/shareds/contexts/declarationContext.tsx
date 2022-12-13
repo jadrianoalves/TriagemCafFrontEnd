@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useState } from 'react'
-import { ItemDeRenda, DeclarationContextType, Membro } from '../../@types/IDeclaration'
+import { ItemDeRenda, DeclarationContextType, UFPAMember, UFPADeclarant } from '../../@types/IDeclaration'
 
 export const DeclarationContext = createContext<DeclarationContextType | null>(null)
 
@@ -12,8 +12,8 @@ interface Props{
 export const DeclarationProvider: React.FC<Props> = ({children}) => {
     const [ itensDeRenda, setIntensDeRenda ] = useState<ItemDeRenda[]>([
         {
-            membro: "",
-            produto: { 
+            member: "",
+            product: { 
                 id: 0,
                 origin: "",
                 type: "",
@@ -21,17 +21,33 @@ export const DeclarationProvider: React.FC<Props> = ({children}) => {
                 product: "",
                 free: 0,
             },
-            valor: 0
+            value: 0
         }
     ])
 
-    const Produtos: ItemDeRenda[] = []
+    const declarant: UFPADeclarant = {
+        name: "",
+        gender: "",
+        cpf:{number:""},
+        rg: {number:"",
+             expeditor: "" ,
+             state: ""
+            },
+        address: {
+            place: "",
+            number: "",
+            district: "",
+            city:{id:"",name:"",state:""}
+        }
+    }
+
+    const selectedProducts: ItemDeRenda[] = []
     
-    const membros: Membro[] = []
+    const members: UFPAMember[] = []
 
     return (
         <DeclarationContext.Provider value = {{
-            membros, Produtos, itensDeRenda, setIntensDeRenda
+            declarant, members, selectedProducts, itensDeRenda, setIntensDeRenda
         }}>
             { children }
         </DeclarationContext.Provider>

@@ -2,8 +2,8 @@ import { ReactNode } from "react"
 
 export interface TriagemCAF extends Props{
     id: number
-    declarante: Declarante
-    membros: Membro[]
+    declarante: UFPADeclarant
+    membros: UFPAMember[]
     rendas: ItemDeRenda[]
     propriedades: Propriedade[]
     criadoEm: Date
@@ -16,9 +16,9 @@ interface Props{
   }
 
 export type Propriedade = {
-    nome: string
+    name: string
     area: string
-    endereco: Endereco
+    endereco: Address
     coordenadas: CoordenadasGSM
     principal: number
 
@@ -31,18 +31,19 @@ export type Resumo = {
     rendaIsenta: number
 }
 
-export type Declarante = {
-    nome: string
-    sexo: string
+export type UFPADeclarant = {
+    name: string
+    gender: string
     cpf: Cpf
     rg: Rg
+    address: Address
 }
 
-export type Endereco = {
-    logradouro: string
-    numero: string
-    bairro: string
-    cidade: Cidade
+export type Address = {
+    place: string
+    number: string
+    district: string
+    city: City
 }
 
 
@@ -67,43 +68,44 @@ export type CoordenadasGeo = {
 }
 
 
-export type Cidade = {
-    id: number
+export type City = {
+    id: string
     name: string
-    uf: string
+    state: string
 }
 
 export type Cpf = {
-    numero: string
+    number: string
 }
 
 export type Rg = {
-    numero: string
-    orgao: string
-    uf: string
+    number: string
+    expeditor: string
+    state: string
 }
 
-export type Membro = {
+export type UFPAMember = {
     name: string
     relationship: string
 }
 
 export type ItemDeRenda = {
-    membro: string
-    produto: Produto
-    valor: number
+    member: string
+    product: Product
+    value: number
 
 }
 
 export type DeclarationContextType = {
-    Produtos: ItemDeRenda[],
-    membros: Membro[],
+    selectedProducts: ItemDeRenda[],
+    members: UFPAMember[],
+    declarant:UFPADeclarant,
     itensDeRenda: ItemDeRenda[],
     setIntensDeRenda: React.Dispatch<React.SetStateAction<ItemDeRenda[]>>
 
 }
 
-export type Produto = {
+export type Product = {
     id: number
     origin: string
     type: string

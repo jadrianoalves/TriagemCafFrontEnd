@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import { Form, Row, Col, Button, Table } from "react-bootstrap"
 import { BsFillPlusCircleFill, BsFillTrashFill } from "react-icons/bs"
-import Products from "../../assets/products"
+import productsList from "../../assets/products"
 import { ItemDeRenda, DeclarationContextType } from "../../@types/IDeclaration"
 import { DeclarationContext } from "../../shareds/contexts/declarationContext"
 
@@ -10,7 +10,7 @@ import { DeclarationContext } from "../../shareds/contexts/declarationContext"
 const Rendas = () => {
 
   
-   const {  Produtos } = useContext(DeclarationContext) as DeclarationContextType
+   const {  selectedProducts } = useContext(DeclarationContext) as DeclarationContextType
            
 
     const [produtoKey, setProdutoKey] = useState("")
@@ -26,35 +26,35 @@ const Rendas = () => {
 
     const handleProducts = (itemDeRenda: ItemDeRenda) => {
         
-        Produtos.push(itemDeRenda)
+        selectedProducts.push(itemDeRenda)
         setContador(contador + 1)
         setProdutoKey("")
         setValueProduct("")
-        console.log(Produtos)
+        console.log(selectedProducts)
     }
 
     const definirValor = (index: number, value: string) => {
-        Produtos?.map(()=>{})
+        selectedProducts?.map(()=>{})
     }
 
     
 
     useEffect(() => {
-       console.log(Produtos)
-        const rendaFora = Produtos?.filter((p) => p.produto.origin == "Renda Fora do Estabelecimento Rural")
-        const rendaIsenta = Produtos?.filter((p) => p.produto.free == 1)
-        const rendaForaTributavel = Produtos?.filter((p) => p.produto.origin == "Renda Fora do Estabelecimento Rural" && p.produto.free == 0)
-        const rendaForaNaoTributavel = Produtos?.filter((p) => p.produto.origin == "Renda Fora do Estabelecimento Rural" && p.produto.free == 1)
-        setRendaTotal(Produtos?.reduce((total, item) => total + item.valor, 0))
-        setRendaForaDoEstabelecimento(rendaFora?.reduce((total, item) => total + item.valor, 0))
-        setRendaForaDoEstabelecimentoComDesconto(rendaForaTributavel?.reduce((total, item) => total + item.valor, 0))
-        setRendaForaDoEstabelecimentoSocial(rendaForaNaoTributavel?.reduce((total, item) => total + item.valor, 0))
+       console.log(selectedProducts)
+        const rendaFora = selectedProducts?.filter((p) => p.product.origin == "Renda Fora do Estabelecimento Rural")
+        const rendaIsenta = selectedProducts?.filter((p) => p.product.free == 1)
+        const rendaForaTributavel = selectedProducts?.filter((p) => p.product.origin == "Renda Fora do Estabelecimento Rural" && p.product.free == 0)
+        const rendaForaNaoTributavel = selectedProducts?.filter((p) => p.product.origin == "Renda Fora do Estabelecimento Rural" && p.product.free == 1)
+        setRendaTotal(selectedProducts?.reduce((total, item) => total + item.value, 0))
+        setRendaForaDoEstabelecimento(rendaFora?.reduce((total, item) => total + item.value, 0))
+        setRendaForaDoEstabelecimentoComDesconto(rendaForaTributavel?.reduce((total, item) => total + item.value, 0))
+        setRendaForaDoEstabelecimentoSocial(rendaForaNaoTributavel?.reduce((total, item) => total + item.value, 0))
 
     }, [contador])
 
 
     const excluirRenda = (index: number) => {
-        Produtos.splice(index,1)
+        selectedProducts.splice(index,1)
         setContador(contador+1)
     }
 
@@ -102,7 +102,7 @@ const Rendas = () => {
                                         <th></th>
 
                                     </tr>
-                                    : Products?.filter((p) => p.product.includes(produtoKey)).slice(0, 9)
+                                    : productsList?.filter((p) => p.product.includes(produtoKey)).slice(0, 9)
                                         .map((p, index) =>
                                             <tr key={index}>
                                                 <td>{p.product}</td>
@@ -111,9 +111,9 @@ const Rendas = () => {
                                                 <td>{p.origin}</td>
 
                                                 <td> <BsFillPlusCircleFill onClick={() => handleProducts(
-                                                    {produto: p,
-                                                        membro: "ufpa",
-                                                        valor: +valueProduct
+                                                    {product: p,
+                                                        member: "ufpa",
+                                                        value: +valueProduct
                                                     }
                                                     )} /> </td>
                                             </tr>)}
@@ -137,7 +137,7 @@ const Rendas = () => {
 
                 <Row>
                     <Col>
-                        <h2>Produtos Selecionados </h2>
+                        <h2>Products Selecionados </h2>
                     </Col>
                 </Row>
                 <Row>
@@ -159,13 +159,13 @@ const Rendas = () => {
                             </thead>
                             <tbody>
                                 {
-                                    Produtos?.map((p, index) =>
+                                    selectedProducts?.map((p, index) =>
                                         <tr key={index}>
-                                            <td>{p.produto.product}</td>
-                                            <td>{p.produto.category}</td>
-                                            <td>{p.produto.type}</td>
-                                            <td>{p.produto.origin}</td>
-                                            <td>{p.valor}</td>
+                                            <td>{p.product.product}</td>
+                                            <td>{p.product.category}</td>
+                                            <td>{p.product.type}</td>
+                                            <td>{p.product.origin}</td>
+                                            <td>{p.value}</td>
                                             <td><BsFillTrashFill onClick={() => excluirRenda(index)} /></td>
                                         </tr>
                                     )

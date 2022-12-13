@@ -8,7 +8,7 @@ import { getValue } from '@testing-library/user-event/dist/utils';
 import icon from '../../assets/caf_icon.png'
 
 import produtoslist from '../../assets/products'
-import Declarante from './declarante'
+import Declarant from './declarante'
 import Ufpa from './ufpa'
 import Membros from './membros'
 import Rendas from './rendas'
@@ -190,7 +190,7 @@ const Declaration: React.FC = () => {
                         <HomeMessage />
                     </Tab>
                     <Tab eventKey="declarant" title="Declarante">
-                        <Declarante />
+                        <Declarant />
                     </Tab>
                     <Tab eventKey="ufpa" title="UFPA" >
                         <Ufpa />

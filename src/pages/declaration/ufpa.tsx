@@ -165,6 +165,28 @@ const Ufpa = () => {
                             </Form.Select>
                         </Col>
 
+                        <Col xs="6">
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Latitude (S)</Form.Label>
+                                <div className="d-flex flex-row">
+                                <Form.Control type="text" placeholder="g" />
+                                <Form.Control type="text" placeholder="m" />
+                                <Form.Control type="text" placeholder="s" />
+                                </div>
+                            </Form.Group>
+                        </Col>
+                        <Col xs="6">
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Longiude (O)</Form.Label>
+                                <div className="d-flex flex-row"><Form.Control type="text" placeholder="g" />
+                                <Form.Control type="text" placeholder="m" />
+                                <Form.Control type="text" placeholder="s" />
+                                </div>
+                                
+                            </Form.Group>
+                        </Col>
+                        
+
                     </Row>
         </>
 
