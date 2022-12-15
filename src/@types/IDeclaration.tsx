@@ -34,9 +34,14 @@ export type Resumo = {
 export type UFPADeclarant = {
     name: string
     gender: string
-    cpf: Cpf
-    rg: Rg
-    address: Address
+    cpf: string
+    rg: string
+    rgEmiter: string
+    placeAddress: string
+    numberAddress: string
+    districtAddress: string
+    cityAddress: string
+    stateAddress: string
 }
 
 export type Address = {
@@ -100,6 +105,7 @@ export type DeclarationContextType = {
     selectedProducts: ItemDeRenda[],
     members: UFPAMember[],
     declarant:UFPADeclarant,
+    setDeclarant: React.Dispatch<React.SetStateAction<UFPADeclarant>>
     itensDeRenda: ItemDeRenda[],
     setIntensDeRenda: React.Dispatch<React.SetStateAction<ItemDeRenda[]>>
 

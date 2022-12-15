@@ -5,15 +5,15 @@ export const DeclarationContext = createContext<DeclarationContextType | null>(n
 
 
 
-interface Props{
+interface Props {
     children?: ReactNode
-  }
+}
 
-export const DeclarationProvider: React.FC<Props> = ({children}) => {
-    const [ itensDeRenda, setIntensDeRenda ] = useState<ItemDeRenda[]>([
+export const DeclarationProvider: React.FC<Props> = ({ children }) => {
+    const [itensDeRenda, setIntensDeRenda] = useState<ItemDeRenda[]>([
         {
             member: "",
-            product: { 
+            product: {
                 id: 0,
                 origin: "",
                 type: "",
@@ -25,31 +25,29 @@ export const DeclarationProvider: React.FC<Props> = ({children}) => {
         }
     ])
 
-    const declarant: UFPADeclarant = {
+    const [declarant, setDeclarant] = useState<UFPADeclarant>({
         name: "",
         gender: "",
-        cpf:{number:""},
-        rg: {number:"",
-             expeditor: "" ,
-             state: ""
-            },
-        address: {
-            place: "",
-            number: "",
-            district: "",
-            city:{id:"",name:"",state:""}
-        }
-    }
+        cpf: "",
+        rg: "",
+        rgEmiter: "",
+        placeAddress: "",
+        numberAddress: "",
+        districtAddress: "",
+        cityAddress: "",
+        stateAddress: ""
+
+    })
 
     const selectedProducts: ItemDeRenda[] = []
-    
+
     const members: UFPAMember[] = []
 
     return (
-        <DeclarationContext.Provider value = {{
-            declarant, members, selectedProducts, itensDeRenda, setIntensDeRenda
+        <DeclarationContext.Provider value={{
+            declarant, setDeclarant, members, selectedProducts, itensDeRenda, setIntensDeRenda
         }}>
-            { children }
+            {children}
         </DeclarationContext.Provider>
     )
 }

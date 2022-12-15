@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useCallback, useContext, useState } from "react"
 import { Form, Row, Col, InputGroup } from "react-bootstrap"
 import ReactInputMask from "react-input-mask"
-import { City } from "../../@types/IDeclaration"
+import { City, DeclarationContextType, UFPADeclarant } from "../../@types/IDeclaration"
 import Cities from '../../assets/cities'
 import States from "../../assets/states"
+import { DeclarationContext } from "../../shareds/contexts/declarationContext"
 
 
 const Declarant = () => {
@@ -13,22 +14,48 @@ const Declarant = () => {
     const handleCities = (state: string) => {
         const cidadesOfSelectedState = Cities.filter((citie) => citie.state == state)
         setAddressCities(cidadesOfSelectedState)
+        setDeclarant(
+            ...declarant,
+            stateAddress: state
+
+        )
     }
 
+    const { declarant, setDeclarant } = useContext(DeclarationContext) as DeclarationContextType
+
+    
+    
+
+    const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>)=>{
+        event.preventDefault()
+        console.log(declarant)
+    },[declarant])
 
     return (
-        <>
+        <Form onSubmit={handleSubmit}>
             <Row>
                 <Col xs="12">
                     <Form.Label>Dados Pessoais</Form.Label>
                 </Col>
                 <Col xs="12" md="10">
                     <Form.Group className="mb-3">
-                        <Form.Control type="text" placeholder="Nome do declarante" />
+                        <Form.Control type="text" placeholder="Nome do declarante" onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                name: event.currentTarget?.value || ""
+                            })
+                        }/>
                     </Form.Group>
                 </Col>
                 <Col xs="12" md="2">
-                    <Form.Select aria-label="Default select example" className="mb-3">
+                    <Form.Select aria-label="Default select example" className="mb-3" onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                gender: event.currentTarget?.value || ""
+                            })
+                        }>
                         <option >Sexo</option>
                         <option value="Masculino">Masculino</option>
                         <option value="Feminino">Feminino</option>
@@ -37,80 +64,77 @@ const Declarant = () => {
 
                 <Col xs="12" md="2">
                     <Form.Group>
-                        <ReactInputMask mask="999.999.999-99" className='form-control mb-3' placeholder='CPF' />
+                        <ReactInputMask mask="999.999.999-99" className='form-control mb-3' placeholder='CPF' onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                cpf: event.currentTarget?.value || ""
+                            })
+                        }/>
                     </Form.Group>
                 </Col>
 
                 <Col xs="12" md="2">
                     <Form.Group className="mb-3">
-                        <Form.Control type="text" placeholder="RG" />
+                        <Form.Control type="text" placeholder="RG" onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                rg: event.currentTarget?.value || ""
+                            })
+                        } />
                     </Form.Group>
                 </Col>
 
                 <Col xs="12" md="3">
                     <InputGroup className="mb-3">
-                        <InputGroup.Text>Emissão</InputGroup.Text>
-                        <Form.Control type="Date" />
+                        <Form.Control type="text" placeholder="Emissor RG"  onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                rgEmiter: event.currentTarget?.value || ""
+                            })
+                        } />
                     </InputGroup>
                 </Col>
-
-                <Col xs="12" md="3">
-                    <Form.Select aria-label="Default select example" className="mb-3">
-                        <option>UF Orgão Emissão</option>
-                        <option value="AC">Acre</option>
-                        <option value="AL">Alagoas</option>
-                        <option value="AP">Amapá</option>
-                        <option value="AM">Amazonas</option>
-                        <option value="BA">Bahia</option>
-                        <option value="CE">Ceará</option>
-                        <option value="DF">Distrito Federal</option>
-                        <option value="ES">Espirito Santo</option>
-                        <option value="GO">Goiás</option>
-                        <option value="MA">Maranhão</option>
-                        <option value="MS">Mato Grosso do Sul</option>
-                        <option value="MT">Mato Grosso</option>
-                        <option value="MG">Minas Gerais</option>
-                        <option value="PA">Pará</option>
-                        <option value="PB">Paraíba</option>
-                        <option value="PR">Paraná</option>
-                        <option value="PE">Pernambuco</option>
-                        <option value="PI">Piauí</option>
-                        <option value="RJ">Rio de Janeiro</option>
-                        <option value="RN">Rio Grande do Norte</option>
-                        <option value="RS">Rio Grande do Sul</option>
-                        <option value="RO">Rondônia</option>
-                        <option value="RR">Roraima</option>
-                        <option value="SC">Santa Catarina</option>
-                        <option value="SP">São Paulo</option>
-                        <option value="SE">Sergipe</option>
-                        <option value="TO">Tocantins</option>
-                    </Form.Select>
-                </Col>
-                <Col xs="12" md="2">
-                    <Form.Select aria-label="Default select example" className="mb-3">
-                        <option>Emissor</option>
-                        <option value="SSP">SSP</option>
-                        <option value="SSDC">SSDC</option>
-                    </Form.Select>
-                </Col>
+                
+                
 
             </Row>
             <Row>
-            <Col xs="12">
+                <Col xs="12">
                     <Form.Label>Endereço de residência</Form.Label>
                 </Col>
             </Row>
-            
+
             <Row>
                 <Col xs="12">
                     <Form.Group className="mb-3">
-                        <Form.Control type="text" placeholder="Endereço" />
+                        <Form.Control type="text" placeholder="Endereço" onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                placeAddress: event.currentTarget?.value || ""
+                            })
+                        }/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Control type="text" placeholder="Número" />
+                        <Form.Control type="text" placeholder="Número" onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                numberAddress: event.currentTarget?.value || ""
+                            })
+                        }/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Control type="text" placeholder="Bairro" />
+                        <Form.Control type="text" placeholder="Bairro" onChange={
+                            (event) => 
+                            setDeclarant({
+                                ...declarant,
+                                districtAddress: event.currentTarget?.value || ""
+                            })
+                        }/>
                     </Form.Group>
 
                 </Col>
@@ -135,7 +159,13 @@ const Declarant = () => {
                 </Col>
 
             </Row>
-        </>
+            <Row>
+                <Col>
+                <Form.Control type="submit" placeholder="enviar" />
+                </Col>
+            </Row>
+        </Form>
+
     )
 }
 

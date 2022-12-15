@@ -13,6 +13,7 @@ import Ufpa from './ufpa'
 import Membros from './membros'
 import Rendas from './rendas'
 import HomeMessage from './message'
+import BasicDocument from '../../reports/autodeclaracao'
 
 
 
@@ -202,6 +203,9 @@ const Declaration: React.FC = () => {
                     <Tab eventKey="renda" title="Renda" >
                         <Rendas />
 
+                    </Tab>
+                    <Tab eventKey="pdf" title="pdf">
+                    <BasicDocument />
                     </Tab>
                 </Tabs>
 
