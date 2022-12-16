@@ -28,7 +28,8 @@ import { DeclarationContext } from "../shareds/contexts/declarationContext";
         margin: 30,
         padding: 10,
         textAlign: 'justify',
-        fontSize: '10pt'
+        fontSize: '10pt',
+        
     },
     viewer: {
       width: window.innerWidth, //the pdf viewer will take up all of the width and height
@@ -42,7 +43,7 @@ import { DeclarationContext } from "../shareds/contexts/declarationContext";
   // Create Document Component
   function BasicDocument() {
 
-    const { declarant }  = useContext(DeclarationContext) as DeclarationContextType
+    const { declarant, ufpa }  = useContext(DeclarationContext) as DeclarationContextType
 
     return (
       <PDFViewer style={styles.viewer}>
@@ -55,10 +56,10 @@ import { DeclarationContext } from "../shareds/contexts/declarationContext";
             <View style={styles.body}>
               <Text style={styles.paragraph}>Eu, {declarant.name} {declarant.gender == "Masculino" ? "portador " : "portadora "}do CPF: {declarant.cpf},
               identidade: {declarant.rg} - Orgão expedidor: {declarant.rgEmiter}, residente e {declarant.gender == "Masculino" ? "domiciliado ": "domiciliada "}
-              no endereço: {declarant.placeAddress}, {declarant.numberAddress} - {declarant.districtAddress} - {declarant.cityAddress} {declarant.stateAddress}
+              no endereço: {declarant.placeAddress}, {declarant.numberAddress} - {declarant.districtAddress} - {declarant.cityAddress} {declarant.stateAddress}.
               </Text>
               <Text>
-                Declaro, na qualidade de responsável pela administração da Unidade Familiar de Produção Agrária (UFPA), situada no endereço:
+                Declaro, na qualidade de responsável pela administração da Unidade Familiar de Produção Agrária (UFPA) {ufpa.name}, situada no endereço: {ufpa.address} - {ufpa.districtAddress} - {ufpa.cityAddress +"-"+ ufpa.stateAdress }
               </Text>
             </View>
           </Page>

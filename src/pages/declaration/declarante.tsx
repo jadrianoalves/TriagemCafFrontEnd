@@ -9,21 +9,19 @@ import { DeclarationContext } from "../../shareds/contexts/declarationContext"
 
 const Declarant = () => {
 
-    const [addressCities, setAddressCities] = useState<City[]>([{ id: "", name: "", state: "" }])
+    const { declarant, setDeclarant } = useContext(DeclarationContext) as DeclarationContextType
+
+    const [addressCities, setAddressCities] = useState<City[]>([{ id: 0, name: "", state: "" }])
 
     const handleCities = (state: string) => {
         const cidadesOfSelectedState = Cities.filter((citie) => citie.state == state)
         setAddressCities(cidadesOfSelectedState)
-        setDeclarant(
+        setDeclarant({
             ...declarant,
             stateAddress: state
-
-        )
+        })
     }
-
-    const { declarant, setDeclarant } = useContext(DeclarationContext) as DeclarationContextType
-
-    
+   
     
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>)=>{
@@ -143,7 +141,7 @@ const Declarant = () => {
                     <Form.Select aria-label="Default select example" className="mb-3" onChange={(e) => handleCities(e.target.value)}>
                         <option>Uf</option>
                         {States.map((state, index) =>
-                            <option value={state.id} key={index}>{state.name}</option>
+                            <option value={state.shortening} key={index}>{state.name}</option>
                         )}
                     </Form.Select>
                 </Col>

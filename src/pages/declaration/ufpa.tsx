@@ -1,12 +1,15 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Form, Row, Col, Button } from "react-bootstrap"
-import { CoordenadasGSM, CoordenadasGeo } from "../../@types/IDeclaration"
+import { CoordenadasGSM, CoordenadasGeo, DeclarationContextType } from "../../@types/IDeclaration"
+import { DeclarationContext } from "../../shareds/contexts/declarationContext"
 
 
 
 
 
 const Ufpa = () => {
+
+    const { ufpa, setUfpa } = useContext(DeclarationContext) as DeclarationContextType
 
     const [coordinates, setCoordinates] = useState({
         s: {
@@ -62,12 +65,32 @@ const Ufpa = () => {
             <Row>
                 <Col xs="12" md="10">
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Control type="text" placeholder="Endereço" />
+                        <Form.Control type="text" placeholder="Nome da propriedade" onChange={
+                            (event) => 
+                            setUfpa({
+                                ...ufpa,
+                                name: event.currentTarget?.value || ""
+                            })}/>
+                    </Form.Group>
+                </Col>
+                <Col xs="12" md="10">
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Control type="text" placeholder="Endereço" onChange={
+                            (event) => 
+                            setUfpa({
+                                ...ufpa,
+                                address: event.currentTarget?.value || ""
+                            })}/>
                     </Form.Group>
                 </Col>
                 <Col xs="12" md="2">
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Control type="text" placeholder="nº" />
+                        <Form.Control type="text" placeholder="Área" onChange={
+                            (event) => 
+                            setUfpa({
+                                ...ufpa,
+                                area: +event.currentTarget?.value || 0
+                            })}/>
                     </Form.Group>
                 </Col>
                 <Col xs="12" md="5">

@@ -30,7 +30,7 @@ const Rendas = () => {
         setContador(contador + 1)
         setProdutoKey("")
         setValueProduct("")
-        console.log(selectedProducts)
+        
     }
 
     const definirValor = (index: number, value: string) => {

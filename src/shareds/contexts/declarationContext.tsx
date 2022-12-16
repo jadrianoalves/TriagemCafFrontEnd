@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useState } from 'react'
-import { ItemDeRenda, DeclarationContextType, UFPAMember, UFPADeclarant } from '../../@types/IDeclaration'
+import { ItemDeRenda, DeclarationContextType, UFPAMember, UFPADeclarant, Land } from '../../@types/IDeclaration'
 
 export const DeclarationContext = createContext<DeclarationContextType | null>(null)
 
@@ -39,13 +39,24 @@ export const DeclarationProvider: React.FC<Props> = ({ children }) => {
 
     })
 
+    const [ ufpa, setUfpa ] = useState<Land>({
+        name: "",
+    area: 0,
+    address: "",
+    districtAddress: "",
+    cityAddress: "",
+    stateAdress: "",
+    latitude: "",
+    longitude: "",
+    })
+
     const selectedProducts: ItemDeRenda[] = []
 
     const members: UFPAMember[] = []
 
     return (
         <DeclarationContext.Provider value={{
-            declarant, setDeclarant, members, selectedProducts, itensDeRenda, setIntensDeRenda
+            declarant, setDeclarant, members, selectedProducts, itensDeRenda, setIntensDeRenda, ufpa, setUfpa
         }}>
             {children}
         </DeclarationContext.Provider>

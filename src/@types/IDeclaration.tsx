@@ -5,7 +5,7 @@ export interface TriagemCAF extends Props{
     declarante: UFPADeclarant
     membros: UFPAMember[]
     rendas: ItemDeRenda[]
-    propriedades: Propriedade[]
+    propriedades: Land[]
     criadoEm: Date
     
 }
@@ -15,12 +15,15 @@ interface Props{
     children?: ReactNode
   }
 
-export type Propriedade = {
+export type Land = {
     name: string
-    area: string
-    endereco: Address
-    coordenadas: CoordenadasGSM
-    principal: number
+    area: number
+    address: string
+    districtAddress: string
+    cityAddress: string
+    stateAdress: string
+    latitude: string
+    longitude: string
 
 }
 
@@ -74,7 +77,7 @@ export type CoordenadasGeo = {
 
 
 export type City = {
-    id: string
+    id: number
     name: string
     state: string
 }
@@ -108,6 +111,8 @@ export type DeclarationContextType = {
     setDeclarant: React.Dispatch<React.SetStateAction<UFPADeclarant>>
     itensDeRenda: ItemDeRenda[],
     setIntensDeRenda: React.Dispatch<React.SetStateAction<ItemDeRenda[]>>
+    ufpa: Land
+    setUfpa: React.Dispatch<React.SetStateAction<Land>>
 
 }
 
