@@ -32,11 +32,10 @@ const Declarant = () => {
     return (
         <Form onSubmit={handleSubmit}>
             <Row>
-                <Col xs="12">
-                    <Form.Label>Dados Pessoais</Form.Label>
-                </Col>
+                              
                 <Col xs="12" md="10">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3 ">
+                    <Form.Label>Nome: </Form.Label>
                         <Form.Control type="text" placeholder="Nome do declarante" onChange={
                             (event) => 
                             setDeclarant({
@@ -47,6 +46,7 @@ const Declarant = () => {
                     </Form.Group>
                 </Col>
                 <Col xs="12" md="2">
+                <Form.Label>Sexo: </Form.Label>
                     <Form.Select aria-label="Default select example" className="mb-3" onChange={
                             (event) => 
                             setDeclarant({
@@ -62,6 +62,7 @@ const Declarant = () => {
 
                 <Col xs="12" md="2">
                     <Form.Group>
+                    <Form.Label>CPF: </Form.Label>
                         <ReactInputMask mask="999.999.999-99" className='form-control mb-3' placeholder='CPF' onChange={
                             (event) => 
                             setDeclarant({
@@ -74,6 +75,7 @@ const Declarant = () => {
 
                 <Col xs="12" md="2">
                     <Form.Group className="mb-3">
+                    <Form.Label>RG: </Form.Label>
                         <Form.Control type="text" placeholder="RG" onChange={
                             (event) => 
                             setDeclarant({
@@ -85,7 +87,10 @@ const Declarant = () => {
                 </Col>
 
                 <Col xs="12" md="3">
-                    <InputGroup className="mb-3">
+                    <Form.Group className="mb-3">
+                    <Form.Label>Emissor: </Form.Label>
+                    
+                    
                         <Form.Control type="text" placeholder="Emissor RG"  onChange={
                             (event) => 
                             setDeclarant({
@@ -93,7 +98,8 @@ const Declarant = () => {
                                 rgEmiter: event.currentTarget?.value || ""
                             })
                         } />
-                    </InputGroup>
+                    
+                    </Form.Group>
                 </Col>
                 
                 
@@ -106,8 +112,9 @@ const Declarant = () => {
             </Row>
 
             <Row>
-                <Col xs="12">
+                <Col xs="12" md="10">
                     <Form.Group className="mb-3">
+                    <Form.Label>Endereço:</Form.Label>
                         <Form.Control type="text" placeholder="Endereço" onChange={
                             (event) => 
                             setDeclarant({
@@ -136,6 +143,9 @@ const Declarant = () => {
                     </Form.Group>
 
                 </Col>
+                            <Col xs="12" md="2">
+                                
+                            </Col>
 
                 <Col>
                     <Form.Select aria-label="Default select example" className="mb-3" onChange={(e) => handleCities(e.target.value)}>
@@ -157,11 +167,7 @@ const Declarant = () => {
                 </Col>
 
             </Row>
-            <Row>
-                <Col>
-                <Form.Control type="submit" placeholder="enviar" />
-                </Col>
-            </Row>
+           
         </Form>
 
     )
